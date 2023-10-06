@@ -1,0 +1,6 @@
+mock-jnaik2-kyeh6/node_modules/
+mock-jnaik2-kyeh6/src/*.js
+.DS_Store
+mock-jnaik2-kyeh6/test-results/
+mock-jnaik2-kyeh6/playwright-report/
+mock-jnaik2-kyeh6/playwright/.cache/
