@@ -6,8 +6,10 @@ import { filePaths } from "../mockedJSON";
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   // CHANGED
-  history: string[];
-  setHistory: Dispatch<SetStateAction<string[]>>;
+  history: string[][];
+  setHistory: Dispatch<SetStateAction<string[][]>>;
+  mode: boolean;
+  setMode: Dispatch<SetStateAction<boolean>>;
 }
 
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
@@ -18,7 +20,6 @@ export function REPLInput(props: REPLInputProps) {
   const [commandString, setCommandString] = useState<string>("");
   // Manages the current amount of times the button is clicked
   const [count, setCount] = useState<number>(0);
-  const [mode, setMode] = useState<boolean>(false);
 
   //const [filepaths, setFilepaths] = useState<Map<String, Array<Array<String>>>>({'' : []});
   const [currFileData, setCurrFileData] = useState<string[][]>();
@@ -26,34 +27,34 @@ export function REPLInput(props: REPLInputProps) {
 
   function handleSubmit(commandString: string) {
     const argumentArray = commandString.split(" ");
-    let result;
+    let command = argumentArray[0];
+    let result = "";
     console.log(commandString);
     // setCommandPrompt((prev) => (prev = argumentArray[0]));
-    if (argumentArray[0] === "mode" && argumentArray.length === 1) {
-      props.setHistory((prev) => [handleMode(), ...prev]);
-    } else if (argumentArray[0] === "load_file" && argumentArray.length === 2) {
-      props.setHistory((prev) => [handleLoad(argumentArray[1]), ...prev]);
-    } else if (argumentArray[0] === "view" && argumentArray.length === 1) {
-      props.setHistory((prev) => ["viewed", ...prev]);
-    } else if (argumentArray[0] === "search" && argumentArray.length === 2) {
-      props.setHistory((prev) => ["search", ...prev]);
-    } else if (argumentArray[0] === "") {
+    if (command === "mode" && argumentArray.length === 1) {
+      result = handleMode();
+    } else if (command === "load_file" && argumentArray.length === 2) {
+      result = handleLoad(argumentArray[1]);
+    } else if (command === "view" && argumentArray.length === 1) {
+      result = "viewed";
+    } else if (command === "search" && argumentArray.length === 2) {
+      result = "searched";
+    } else if (command === "") {
       return;
     } else {
-      // props.setResult((prev) => (prev = "error"));
-      // props.setHistory((prev) => [props.result, ...prev]);
+      result = "errored";
     }
-    // props.setHistory((prev) => [...prev, result]);
+    props.setHistory((prev) => [[command, result], ...prev]);
     console.log(props.history);
     setCommandString("");
   }
 
   function handleMode() {
-    setMode((prev) => !prev);
-    if (!mode) {
-      return "Mode changed to verbose.";
+    props.setMode((prev) => !prev);
+    if (!props.mode) {
+      return "Mode set to brief.";
     } else {
-      return "Mode changed to brief";
+      return "Mode set to verbose."
     }
   }
 
@@ -82,7 +83,7 @@ export function REPLInput(props: REPLInputProps) {
       </fieldset>
       {/* TODO: Currently this button just counts up, can we make it push the contents of the input box to the history?*/}
       <button onClick={() => handleSubmit(commandString)}>
-        Mode is currently {mode ? "verbose" : "brief"}.
+        Mode is currently {props.mode ? "verbose" : "brief"}
       </button>
     </div>
   );
