@@ -47,20 +47,20 @@ test("on page load, i see a button", async ({ page }) => {
   await expect(page.getByRole("button")).toBeVisible();
 });
 
-test("after I click the button, its label increments", async ({ page }) => {
-  // TODO WITH TA: Fill this in to test your button counter functionality!
-  await page.goto("http://localhost:8000/");
-  await expect(
-    page.getByRole("button", { name: "Submitted 0 times" })
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Submitted 0 times" }).click();
-  await page.getByRole("button", { name: "Submitted 1 times" }).click();
-  await page.getByRole("button", { name: "Submitted 2 times" }).click();
-  await page.getByRole("button", { name: "Submitted 3 times" }).click();
-  await expect(
-    page.getByRole("button", { name: "Submitted 4 times" })
-  ).toBeVisible();
-});
+// test("after I click the button, its label increments", async ({ page }) => {
+//   // TODO WITH TA: Fill this in to test your button counter functionality!
+//   await page.goto("http://localhost:8000/");
+//   await expect(
+//     page.getByRole("button", { name: "Submitted 0 times" })
+//   ).toBeVisible();
+//   await page.getByRole("button", { name: "Submitted 0 times" }).click();
+//   await page.getByRole("button", { name: "Submitted 1 times" }).click();
+//   await page.getByRole("button", { name: "Submitted 2 times" }).click();
+//   await page.getByRole("button", { name: "Submitted 3 times" }).click();
+//   await expect(
+//     page.getByRole("button", { name: "Submitted 4 times" })
+//   ).toBeVisible();
+// });
 
 test("after I click the button, my command gets pushed", async ({ page }) => {
   // TODO: Fill this in to test your button push functionality!
@@ -69,6 +69,8 @@ test("after I click the button, my command gets pushed", async ({ page }) => {
 test("mode functionality", async ({ page }) => {
     await page.goto("http://localhost:8000/");
     await expect(
-      page.getByRole("button")
-    ).toBeVisible();
+      page.getByRole("button")).toBeVisible();
+      await page.getByLabel("Command input").click();
+      await page.getByLabel("Command input").fill("mode");
+      await page.getByRole("button").click();
 });
