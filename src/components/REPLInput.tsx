@@ -33,7 +33,6 @@ export function REPLInput(props: REPLInputProps) {
     const argumentArray = commandString.split(" ");
     let command = argumentArray[0];
     let result: [string[][], boolean];
-    console.log(commandString);
     // setCommandPrompt((prev) => (prev = argumentArray[0]));
     if (command === "mode" && argumentArray.length === 1) {
       result = handleMode();
@@ -45,14 +44,13 @@ export function REPLInput(props: REPLInputProps) {
       command === "search" &&
       (argumentArray.length === 2 || argumentArray.length === 3)
     ) {
-      result = [[["searched"]], false];
+      result = handleSearch(argumentArray);
     } else if (command === "") {
       return;
     } else {
       result = [[["Error, command not found."]], false];
     }
     props.setHistory((prev) => [[command, ...result], ...prev]);
-    console.log(props.history);
     setCommandString("");
   }
 
@@ -80,8 +78,19 @@ export function REPLInput(props: REPLInputProps) {
     if (currFileData === undefined) {
       return [[["Error with view."]], false];
     } else {
-      return [currFileData, false];
+      return [currFileData, true];
     }
+  }
+
+  function handleSearch(commandArray: string[]): [string[][], boolean] {
+    let errorMessage = [["Value not found."]];
+    let search =
+      commandArray.length == 2
+        ? commandArray[1]
+        : commandArray[1] + commandArray[2];
+
+    let searchResult = searchToResult.get(search);
+    return (searchResult === undefined) ? [errorMessage, false] : [searchResult, true];
   }
 
   return (

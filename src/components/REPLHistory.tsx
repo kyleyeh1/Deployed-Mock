@@ -29,7 +29,7 @@ export function REPLHistory(props: REPLHistoryProps) {
                 {result.map((row) => rowToData(row))}
               </table>
             ) : (
-              <p>Result: {result[0][0]}</p>
+              <p>Output: {result[0][0]}</p>
             )}
           </div>
         ) : (
@@ -40,7 +40,7 @@ export function REPLHistory(props: REPLHistoryProps) {
                 {result.map((row) => rowToData(row))}
               </table>
             ) : (
-              <p>Result: {result[0][0]}</p>
+              <p>{result[0][0]}</p>
             )}
           </div>
         )
