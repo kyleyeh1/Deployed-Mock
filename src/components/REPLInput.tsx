@@ -6,8 +6,8 @@ import { filePaths } from "../mockedJSON";
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   // CHANGED
-  history: string[][];
-  setHistory: Dispatch<SetStateAction<string[][]>>;
+  history: Array<[string, string[][]]>;
+  setHistory: Dispatch<SetStateAction<Array<[string, string[][]]>>>;
   mode: boolean;
   setMode: Dispatch<SetStateAction<boolean>>;
 }
@@ -28,21 +28,21 @@ export function REPLInput(props: REPLInputProps) {
   function handleSubmit(commandString: string) {
     const argumentArray = commandString.split(" ");
     let command = argumentArray[0];
-    let result = "";
+    let result: string[][];
     console.log(commandString);
     // setCommandPrompt((prev) => (prev = argumentArray[0]));
     if (command === "mode" && argumentArray.length === 1) {
-      result = handleMode();
+      result = [[handleMode()]];
     } else if (command === "load_file" && argumentArray.length === 2) {
-      result = handleLoad(argumentArray[1]);
+      result = [[handleLoad(argumentArray[1])]];
     } else if (command === "view" && argumentArray.length === 1) {
-      result = "viewed";
+      result = [["viewed"]];
     } else if (command === "search" && argumentArray.length === 2) {
-      result = "searched";
+      result = [["searched"]];
     } else if (command === "") {
       return;
     } else {
-      result = "errored";
+      result = [["errored"]];
     }
     props.setHistory((prev) => [[command, result], ...prev]);
     console.log(props.history);
@@ -51,11 +51,7 @@ export function REPLInput(props: REPLInputProps) {
 
   function handleMode() {
     props.setMode((prev) => !prev);
-    if (!props.mode) {
-      return "Mode set to brief.";
-    } else {
-      return "Mode set to verbose."
-    }
+    return !props.mode ? "Mode set to brief." : "Mode set to verbose.";
   }
 
   function handleLoad(filename: string) {

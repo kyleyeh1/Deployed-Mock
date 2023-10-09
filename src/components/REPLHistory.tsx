@@ -3,21 +3,21 @@ import "../styles/main.css";
 interface REPLHistoryProps {
   // TODO: Fill with some shared state tracking all the pushed commands
   // CHANGED
-  history: string[][];
+  history: Array<[string, string[][]]>;
   mode: boolean;
 }
 export function REPLHistory(props: REPLHistoryProps) {
   return (
     <div className="repl-history">
-      {props.history.map((command) =>
+      {props.history.map(([command, result]) =>
         props.mode ? (
           <p>
-            Command: {command[0]}
+            Command: {command}
             <br></br>
-            Output: {command[1]}
+            Output: {result}
           </p>
         ) : (
-          <p>{command[1]}</p>
+          <p>{result}</p>
         )
       )}
     </div>
