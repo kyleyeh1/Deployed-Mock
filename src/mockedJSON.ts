@@ -1,4 +1,4 @@
-export { filePaths };
+export { filePaths, searchToResult, displayResult1, displayResult2 };
 
 let filePaths = new Map<string, Array<Array<string>>>();
 
@@ -26,3 +26,13 @@ filePaths.set("single_line.csv", singeLineCSV);
 filePaths.set("double_line.csv", doubleLineCSV);
 filePaths.set("triple_line_repeat.csv", tripleLineRepeatCSV);
 filePaths.set("triple_line_no_repeat.csv", tripleLineNoRepeatCSV);
+
+let searchToResult = new Map<string | [string, string], Array<Array<string>>>();
+
+const displayResult1 = [["New York", "Seattle", "Scotsdale", "Denver"]];
+const displayResult2 = [
+  ["New York", "Seattle", "Scotsdale", "Denver"],
+  ["Chicago", "Vancouver", "Detroit", "Seattle"],
+];
+
+

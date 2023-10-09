@@ -16,7 +16,7 @@ export default function REPL() {
   // TODO: Add some kind of shared state that holds all the commands submitted.
   // CHANGED
   const [history, setHistory] = useState<
-    Array<[string, string[][]]>
+    Array<[string, string[][], boolean]>
   >([]);
   const [mode, setMode] = useState<boolean>(false);
 

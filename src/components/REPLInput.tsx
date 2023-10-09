@@ -1,13 +1,18 @@
 import "../styles/main.css";
 import { Dispatch, SetStateAction, useState } from "react";
 import { ControlledInput } from "./ControlledInput";
-import { filePaths } from "../mockedJSON";
+import {
+  filePaths,
+  searchToResult,
+  displayResult1,
+  displayResult2,
+} from "../mockedJSON";
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   // CHANGED
-  history: Array<[string, string[][]]>;
-  setHistory: Dispatch<SetStateAction<Array<[string, string[][]]>>>;
+  history: Array<[string, string[][], boolean]>;
+  setHistory: Dispatch<SetStateAction<Array<[string, string[][], boolean]>>>;
   mode: boolean;
   setMode: Dispatch<SetStateAction<boolean>>;
 }
@@ -23,43 +28,59 @@ export function REPLInput(props: REPLInputProps) {
 
   //const [filepaths, setFilepaths] = useState<Map<String, Array<Array<String>>>>({'' : []});
   const [currFileData, setCurrFileData] = useState<string[][]>();
-  // const [commandPrompt, setCommandPrompt] = useState<string>("dog");
 
   function handleSubmit(commandString: string) {
     const argumentArray = commandString.split(" ");
     let command = argumentArray[0];
-    let result: string[][];
+    let result: [string[][], boolean];
     console.log(commandString);
     // setCommandPrompt((prev) => (prev = argumentArray[0]));
     if (command === "mode" && argumentArray.length === 1) {
-      result = [[handleMode()]];
+      result = handleMode();
     } else if (command === "load_file" && argumentArray.length === 2) {
-      result = [[handleLoad(argumentArray[1])]];
+      result = handleLoad(argumentArray[1]);
     } else if (command === "view" && argumentArray.length === 1) {
-      result = [["viewed"]];
-    } else if (command === "search" && argumentArray.length === 2) {
-      result = [["searched"]];
+      result = handleView();
+    } else if (
+      command === "search" &&
+      (argumentArray.length === 2 || argumentArray.length === 3)
+    ) {
+      result = [[["searched"]], false];
     } else if (command === "") {
       return;
     } else {
-      result = [["errored"]];
+      result = [[["Error, command not found."]], false];
     }
-    props.setHistory((prev) => [[command, result], ...prev]);
+    props.setHistory((prev) => [[command, ...result], ...prev]);
     console.log(props.history);
     setCommandString("");
   }
 
-  function handleMode() {
+  function handleMode(): [string[][], boolean] {
     props.setMode((prev) => !prev);
-    return !props.mode ? "Mode set to brief." : "Mode set to verbose.";
+    return [
+      [[!props.mode ? "Mode set to brief." : "Mode set to verbose."]],
+      false,
+    ];
   }
 
-  function handleLoad(filename: string) {
+  function handleLoad(filename: string): [string[][], boolean] {
     if (!filePaths.has(filename)) {
-      return "Error: " + filename + " was unable to be found and loaded.";
+      return [
+        [["Error, " + filename + " was unable to be found and loaded."]],
+        false,
+      ];
     } else {
-      return "Success: " + filename + " was loaded.";
       setCurrFileData((prev) => (prev = filePaths.get(filename)));
+      return [[["Success, " + filename + " was loaded."]], false];
+    }
+  }
+
+  function handleView(): [string[][], boolean] {
+    if (currFileData === undefined) {
+      return [[["Error with view."]], false];
+    } else {
+      return [currFileData, false];
     }
   }
 
