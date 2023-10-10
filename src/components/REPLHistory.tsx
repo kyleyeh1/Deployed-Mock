@@ -1,12 +1,11 @@
 import "../styles/main.css";
 
 interface REPLHistoryProps {
-  // TODO: Fill with some shared state tracking all the pushed commands
-  // CHANGED
   history: Array<[string, string[][], boolean]>;
   mode: boolean;
 }
 export function REPLHistory(props: REPLHistoryProps) {
+
   function rowToData(row: string[]) {
     return (
       <tr>
@@ -23,10 +22,10 @@ export function REPLHistory(props: REPLHistoryProps) {
         props.mode ? (
           <div>
             <br></br>
-            <p>Command: {command} </p>
+            <p>Command: {command}</p>
             {displayTable ? (
-              <table className="repl-table">
-                {result.map((row) => rowToData(row))}
+              <table className="repl-table"> 
+                Output: {result.map((row) => rowToData(row))}
               </table>
             ) : (
               <p>Output: {result[0][0]}</p>

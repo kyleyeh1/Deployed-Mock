@@ -9,6 +9,8 @@ const doubleLineCSV = [
   ["Water", "Fire", "Earth", "Air"],
   ["New_York", "Seattle", "Scotsdale", "Denver"],
 ];
+const messedUpCSV = [["Water"], ["New_York", "Seattle", "Scotsdale", "Denver"]];
+
 const tripleLineRepeatCSV = [
   ["Water", "Fire", "Earth", "Air"],
   ["New_York", "Seattle", "Scotsdale", "Denver"],
@@ -21,6 +23,7 @@ const tripleLineNoRepeatCSV = [
 ];
 
 filePaths.set("empty.csv", emptyCSV);
+filePaths.set("messedup.csv", messedUpCSV);
 filePaths.set("blank_lines.csv", blankLinesCSV);
 filePaths.set("single_line.csv", singeLineCSV);
 filePaths.set("double_line.csv", doubleLineCSV);
