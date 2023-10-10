@@ -8,6 +8,9 @@ import {
   displayResult2,
 } from "../mockedJSON";
 
+/**
+ * This interface defines the properties for the REPLInput function.
+ */
 interface REPLInputProps {
   history: Array<[string, string[][], boolean]>;
   setHistory: Dispatch<SetStateAction<Array<[string, string[][], boolean]>>>;
@@ -15,9 +18,15 @@ interface REPLInputProps {
   setMode: Dispatch<SetStateAction<boolean>>;
 }
 
+/**
+ * The function that represents the REPL input and handles commands
+ * (ie mode, load_file, view, search).
+ * 
+ * @param props The properties defined above for the REPLInput function.
+ * @returns The rendering of what the component looks like on the webpage.
+ */
 export function REPLInput(props: REPLInputProps) {
   const [commandString, setCommandString] = useState<string>("");
-  const [count, setCount] = useState<number>(0);
   const [currFileData, setCurrFileData] = useState<string[][]>();
 
   /**
@@ -105,6 +114,9 @@ export function REPLInput(props: REPLInputProps) {
    * @return {[string[][], boolean]} A tuple containing the command result and a flag indicating whether to display the result as a table
    */
   function handleSearch(commandArray: string[]): [string[][], boolean] {
+    if (currFileData === undefined) {
+      return [[["Error: No file loaded."]], false];
+    }
     let errorMessage = [["Error: No value found."]];
     let search =
       commandArray.length == 2
@@ -117,6 +129,9 @@ export function REPLInput(props: REPLInputProps) {
       : [searchResult, true];
   }
 
+  /**
+   * The rendering of what the component looks like on the webpage.
+   */
   return (
     <div className="repl-input">
       <fieldset>
