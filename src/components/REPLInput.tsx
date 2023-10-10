@@ -23,7 +23,7 @@ interface REPLInputProps {
  * (ie mode, load_file, view, search).
  * 
  * @param props The properties defined above for the REPLInput function.
- * @returns The rendering of what the component looks like on the webpage.
+ * @returns The rendering of what the REPLInput component looks like on the webpage.
  */
 export function REPLInput(props: REPLInputProps) {
   const [commandString, setCommandString] = useState<string>("");

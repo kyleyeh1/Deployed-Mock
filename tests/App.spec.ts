@@ -253,9 +253,11 @@ test("load and view commands work with data that's not uniform in dimensions", a
 
 /**
  * This test checks view and its integration with load, and mode.
- * First, it checks that a csv file was loaded.
- * Then it switches modes and checks that the values are slightly different with same frequency.
- * Then it loads another file, tests the frequencies, and loads the original file and verifies that the frequencies of the original are more than the other one.
+ * First, it checks that a csv file was loaded. Then it switches
+ * modes and checks that the values are slightly different with
+ * same frequency. Then it loads another file, tests the frequencies,
+ * and loads the original file and verifies that the frequencies of
+ * the original are more than the other one.
  */
 test("view commands show success under verbose and brief modes, view mutiple times, also integration test with load", async ({
   page,
@@ -338,6 +340,15 @@ test("view commands show success under verbose and brief modes, view mutiple tim
   await expect(page.getByText("Seattle")).toHaveCount(1);
   await expect(page.getByText("Scotsdale")).toHaveCount(1);
   await expect(page.getByText("Denver")).toHaveCount(1);
+
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("load_file empty.csv");
+  await page.getByRole("button").click();
+
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("view");
+  await page.getByRole("button").click();
+  await expect(page.getByText("Output: ")).toHaveCount(9);
 });
 
 /**
@@ -467,12 +478,14 @@ test("search commands show failure under verbose and brief modes", async ({
 
 /**
  * This test checks search and its integration with view, load, and mode.
- * First, it checks that a csv file was loaded and a mocked search query works.
- * Then it tests viewing the same csv and checking that the frequency of keywords is different.
- * Then it switches modes and checks that the inputs are different but in sync with the previous values.
- * Then it tries searching with two different searches and checks that the frequencies update in this new mode.
- * Then it switches mode and checks once more that the frequencies are expected.
- * Then it loads a different file, and tries to search on it.
+ * First, it checks that a csv file was loaded and a mocked search query
+ * works. Then it tests viewing the same csv and checking that the frequency
+ * of keywords is different. Then it switches modes and checks that the
+ * inputs are different but in sync with the previous values. Then it tries
+ * searching with two different searches and checks that the frequencies
+ * update in this new mode. Then it switches mode and checks once more that
+ * the frequencies are expected. Then it loads a different file, and tries
+ * to search on it.
  */
 test("search commands show success under verbose and brief modes, with viewing/loading (integration)", async ({
   page,

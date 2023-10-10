@@ -3,6 +3,11 @@ import "../styles/main.css";
 import { REPLHistory } from "./REPLHistory";
 import { REPLInput } from "./REPLInput";
 
+/**
+ * The top level component and logic for the REPL.
+ * 
+ * @returns The high level rendering of the entire REPL.
+ */
 export default function REPL() {
   const [history, setHistory] = useState<Array<[string, string[][], boolean]>>(
     []
