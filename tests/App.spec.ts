@@ -487,7 +487,7 @@ test("search commands show failure under verbose and brief modes", async ({
  * the frequencies are expected. Then it loads a different file, and tries
  * to search on it.
  */
-test("search commands show success under verbose and brief modes, with viewing/loading (integration)", async ({
+test("search commands show success and error message under verbose and brief modes, with viewing/loading (integration)", async ({
   page,
 }) => {
   await expect(page.getByRole("button")).toBeVisible();
@@ -547,7 +547,7 @@ test("search commands show success under verbose and brief modes, with viewing/l
   await expect(page.getByText("Command: search")).toHaveCount(2);
 
   await page.getByLabel("Command input").click();
-  await page.getByLabel("Command input").fill("search ScotsdaleEarth");
+  await page.getByLabel("Command input").fill("search Scotsdale Earth");
   await page.getByRole("button").click();
 
   await expect(page.getByText("New_York")).toHaveCount(4);
@@ -612,4 +612,10 @@ test("search commands show success under verbose and brief modes, with viewing/l
   await expect(page.getByText("Earth")).toHaveCount(3);
   await expect(page.getByText("Fire")).toHaveCount(3);
   await expect(page.getByText("Air")).toHaveCount(3);
+  await expect(page.getByText("Error: No value found.")).toHaveCount(1);
+
+  await page.getByLabel("Command input").click();
+  await page.getByLabel("Command input").fill("search Blank 1");
+  await page.getByRole("button").click();
+  await expect(page.getByText("Error: No value found.")).toHaveCount(2);
 });

@@ -6,7 +6,7 @@ import {
   searchToResult,
   displayResult1,
   displayResult2,
-} from "../mockedJSON";
+} from "../mock-datasets/mockedJSON";
 
 /**
  * This interface defines the properties for the REPLInput function.
